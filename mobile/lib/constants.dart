@@ -31,7 +31,7 @@ const kRoles = {
 // const kBaseUrl = 'http://10.0.2.2:8000/api'; // Android emulator → localhost
 // const kBaseUrl = '192.168.10.125:8000/api'; // Appareil physique
 // ✅ URL de production
-const kBaseUrl = 'https://greenspace-backend.onrender.com/api';
+const kBaseUrl = 'https://greenspaces.onrender.com';
 
 
 // ── ThemeData ────────────────────────────────

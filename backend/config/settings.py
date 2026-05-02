@@ -8,17 +8,19 @@ from pathlib import Path
 from datetime import timedelta
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-r)+25i_prm&f*0an$prz$6r2ao_$5203&jg*(qpm*5*8uup1y2')
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']   # À restreindre en production
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'greenspaces.onrender.com',   # Ton URL Render
+    '*',                          # À restreindre en production si nécessaire
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -31,13 +33,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'greenspace',           # Votre application personnalisée
+    'greenspace',                 # Ton application personnalisée
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # Gestion des fichiers statiques
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # Fichiers statiques
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,7 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database – utilise SQLite par défaut, mais peut être remplacée par DATABASE_URL
+# Database – SQLite par défaut, mais peut être remplacée par DATABASE_URL
 DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
