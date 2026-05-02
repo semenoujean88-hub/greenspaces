@@ -1,0 +1,25 @@
+# Python / Django
+venv/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+*.env
+.env
+*.log
+media/
+staticfiles/
+
+# Clés et secrets
+*.jks
+key.properties
+
+# Frontend Flutter (dossier mobile)
+mobile/build/
+mobile/.dart_tool/
+mobile/.flutter-plugins-dependencies
+
+# Fichiers système / IDE
+.DS_Store
+.idea/
+*.swp

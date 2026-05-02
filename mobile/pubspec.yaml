@@ -1,0 +1,62 @@
+name: greenspace
+description: Traçabilité blockchain pour la filière cacao du Togo
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Existants
+  http: ^1.2.0
+  shared_preferences: ^2.2.2
+  mobile_scanner: ^7.2.0
+  qr_flutter: ^4.1.0
+  geolocator: ^14.0.2
+  flutter_map: ^8.3.0
+  latlong2: ^0.9.1
+  fl_chart: ^1.2.0
+  pdf: ^3.10.8
+  printing: ^5.12.0
+  cupertino_icons: ^1.0.6
+
+  # Offline
+  sqflite: ^2.3.2
+  path: ^1.9.0
+  connectivity_plus: ^7.1.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  uuid: ^4.3.3
+  crypto: ^3.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.14.1   # Outil pour l’icône de l’application
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+          weight: 800
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/logo.png"
+  min_sdk_android: 21
