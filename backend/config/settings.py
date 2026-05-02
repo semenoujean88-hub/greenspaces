@@ -18,8 +18,8 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'greenspaces.onrender.com',   # Ton URL Render
-    '*',                          # À restreindre en production si nécessaire
+    'greenspaces.onrender.com',
+    '*',  # À restreindre en production si nécessaire
 ]
 
 # Application definition
@@ -32,14 +32,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    # 'cloudinary_storage',   # Supprimé
+    # 'cloudinary',           # Supprimé
     'corsheaders',
-    'greenspace',                 # Ton application personnalisée
+    'greenspace',
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   # Fichiers statiques
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,7 +95,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files (uploads)
+# Media files (uploads) – stockage local
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -115,3 +117,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+# Default primary key field type (supprime les warnings)
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
