@@ -1,9 +1,10 @@
-// lib/main.dart
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'core/offline/offline_manager.dart';
 import 'core/sync/sync_service.dart';
 import 'core/connectivity/connectivity_service.dart';
-import 'constants.dart';
+// import 'constants.dart';
 import 'screens.dart';
 
 void main() async {
@@ -12,7 +13,51 @@ void main() async {
   runApp(const GreenSpaceApp());
 }
 
-
+// Thème général de l'application
+ThemeData greenSpaceTheme() {
+  return ThemeData(
+    primaryColor: AppColors.primaryGreen,
+    scaffoldBackgroundColor: AppColors.backgroundGreen,
+    fontFamily: 'Poppins',
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.white,
+      elevation: 0,
+      centerTitle: false,
+      titleTextStyle: TextStyle(
+        color: AppColors.textDark,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+      ),
+      iconTheme: IconThemeData(color: AppColors.textDark),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppColors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: AppColors.primaryGreenLight, width: 1.5),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryGreen,
+        foregroundColor: AppColors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        textStyle: const TextStyle(fontWeight: FontWeight.w700),
+      ),
+    ),
+  );
+}
 
 class GreenSpaceApp extends StatelessWidget {
   const GreenSpaceApp({super.key});
@@ -25,19 +70,18 @@ class GreenSpaceApp extends StatelessWidget {
       theme: greenSpaceTheme(),
       initialRoute: '/home',
       routes: {
-        '/home':                (_) => const HomeScreen(),
-        '/role-selection':      (_) => const RoleSelectionScreen(),
-        '/inscription':         (_) => const InscriptionScreen(),
-        '/connexion':           (_) => const ConnexionScreen(),
-        '/dashboard-national':  (_) => const DashboardNationalScreen(),
+        '/home': (_) => const HomeScreen(),
+        '/role-selection': (_) => const RoleSelectionScreen(),
+        '/inscription': (_) => const InscriptionScreen(),
+        '/connexion': (_) => const ConnexionScreen(),
+        '/dashboard-national': (_) => const DashboardNationalScreen(),
         '/dashboard-agriculteur': (_) => const DashboardAgriculteurScreen(),
-        '/enregistrer-lot':     (_) => const EnregistrerLotScreen(),
-        '/verification':        (_) => const VerificationScreen(),
-        '/gestion-lots':        (_) => const GestionLotsScreen(),
-        '/gestion-exports':     (_) => const GestionExportsScreen(),
+        '/enregistrer-lot': (_) => const EnregistrerLotScreen(),
+        '/verification': (_) => const VerificationScreen(),
+        '/gestion-lots': (_) => const GestionLotsScreen(),
+        '/gestion-exports': (_) => const GestionExportsScreen(),
       },
       builder: (context, child) {
-        // ✅ Bannière de connectivité affichée sur toutes les pages
         return ConnectivityWrapper(child: child!);
       },
     );
@@ -52,15 +96,13 @@ class ConnectivityWrapper extends StatefulWidget {
   const ConnectivityWrapper({super.key, required this.child});
 
   @override
-  State<ConnectivityWrapper> createState() =>
-      _ConnectivityWrapperState();
+  State<ConnectivityWrapper> createState() => _ConnectivityWrapperState();
 }
 
-class _ConnectivityWrapperState
-    extends State<ConnectivityWrapper> {
-  bool _isOnline    = true;
-  bool _showBanner  = false;
-  SyncStatus _sync  = SyncStatus.idle;
+class _ConnectivityWrapperState extends State<ConnectivityWrapper> {
+  bool _isOnline = true;
+  bool _showBanner = false;
+  SyncStatus _sync = SyncStatus.idle;
 
   @override
   void initState() {
@@ -79,14 +121,13 @@ class _ConnectivityWrapperState
     ConnectivityService().listen((connected) {
       if (mounted) {
         setState(() {
-          _isOnline   = connected;
+          _isOnline = connected;
           _showBanner = true;
         });
-        // Cacher la bannière "En ligne" après 3 secondes
         if (connected) {
-          Future.delayed(
-              const Duration(seconds: 3),
-              () { if (mounted) setState(() => _showBanner = false); });
+          Future.delayed(const Duration(seconds: 3), () {
+            if (mounted) setState(() => _showBanner = false);
+          });
         }
       }
     });
@@ -104,13 +145,12 @@ class _ConnectivityWrapperState
       children: [
         Expanded(child: widget.child),
 
-        // ── Bannière offline ──
+        // ── Bannière hors ligne ──
         if (!_isOnline)
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-                vertical: 6, horizontal: 16),
-            color: kWarning,
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            color: AppColors.statusPending,
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -131,9 +171,8 @@ class _ConnectivityWrapperState
         if (_isOnline && _showBanner)
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-                vertical: 6, horizontal: 16),
-            color: kSuccess,
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+            color: AppColors.statusVerified,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -151,7 +190,8 @@ class _ConnectivityWrapperState
                 if (_sync == SyncStatus.enCours) ...[
                   const SizedBox(width: 8),
                   const SizedBox(
-                    width: 12, height: 12,
+                    width: 12,
+                    height: 12,
                     child: CircularProgressIndicator(
                         color: Colors.white, strokeWidth: 2),
                   ),
@@ -165,7 +205,7 @@ class _ConnectivityWrapperState
 }
 
 // ════════════════════════════════════════════
-// DASHBOARD AGRICULTEUR (nouveau screen)
+// DASHBOARD AGRICULTEUR
 // ════════════════════════════════════════════
 class DashboardAgriculteurScreen extends StatefulWidget {
   const DashboardAgriculteurScreen({super.key});
@@ -174,12 +214,11 @@ class DashboardAgriculteurScreen extends StatefulWidget {
       _DashboardAgriculteurState();
 }
 
-class _DashboardAgriculteurState
-    extends State<DashboardAgriculteurScreen> {
+class _DashboardAgriculteurState extends State<DashboardAgriculteurScreen> {
   List<Map<String, dynamic>> _lots = [];
-  Map<String, dynamic> _syncStats  = {};
-  bool _loading                    = true;
-  bool _isOnline                   = true;
+  Map<String, dynamic> _syncStats = {};
+  bool _loading = true;
+  bool _isOnline = true;
 
   @override
   void initState() {
@@ -189,20 +228,17 @@ class _DashboardAgriculteurState
 
   Future<void> _load() async {
     setState(() => _loading = true);
-
-    // Charger les lots via OfflineManager
     final result = await OfflineManager().getLots();
-    final stats  = await OfflineManager().getSyncStats();
+    final stats = await OfflineManager().getSyncStats();
     final online = await ConnectivityService().isConnected();
-
     if (mounted) {
       setState(() {
-        _lots      = result.data != null
+        _lots = result.data != null
             ? List<Map<String, dynamic>>.from(result.data)
             : [];
         _syncStats = stats;
-        _isOnline  = online;
-        _loading   = false;
+        _isOnline = online;
+        _loading = false;
       });
     }
   }
@@ -213,7 +249,9 @@ class _DashboardAgriculteurState
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(result.message),
         backgroundColor:
-            result.succes > 0 ? kSuccess : kWarning,
+            result.succes > 0 ? AppColors.statusVerified : AppColors.statusPending,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ));
       _load();
     }
@@ -224,38 +262,51 @@ class _DashboardAgriculteurState
     final nonSynces = _syncStats['lots_non_synces'] ?? 0;
 
     return Scaffold(
-      backgroundColor: kGrayLight,
+      backgroundColor: AppColors.backgroundGreen,
       appBar: AppBar(
-        title: const Text('Mon Dashboard'),
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        title: const Text(
+          'Mon Dashboard',
+          style: TextStyle(
+            color: AppColors.textDark,
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+          ),
+        ),
         actions: [
-          // ── Bouton synchronisation manuelle ──
           if (!_isOnline)
             const Padding(
               padding: EdgeInsets.only(right: 8),
-              child: Icon(Icons.cloud_off, color: kWarning),
+              child: Icon(Icons.cloud_off, color: AppColors.statusPending),
             )
           else
             IconButton(
-              icon: const Icon(Icons.sync),
+              icon: const Icon(Icons.sync, color: AppColors.primaryGreen),
               onPressed: _forcerSync,
               tooltip: 'Synchroniser',
             ),
           IconButton(
-              icon: const Icon(Icons.notifications_outlined),
-              onPressed: () {}),
-          const CircleAvatar(
-              backgroundColor: kGreen,
+            icon: const Icon(Icons.notifications_outlined,
+                color: AppColors.textMedium),
+            onPressed: () {},
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            child: const CircleAvatar(
+              backgroundColor: AppColors.primaryGreen,
               radius: 18,
-              child:
-                  Icon(Icons.person, color: kWhite, size: 18)),
-          const SizedBox(width: 12),
+              child: Icon(Icons.person, color: AppColors.white, size: 18),
+            ),
+          ),
         ],
       ),
       body: _loading
           ? const Center(
-              child: CircularProgressIndicator(color: kGreen))
+              child: CircularProgressIndicator(color: AppColors.primaryGreen))
           : RefreshIndicator(
               onRefresh: _load,
+              color: AppColors.primaryGreen,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
@@ -265,82 +316,99 @@ class _DashboardAgriculteurState
                     if (nonSynces > 0)
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(14),
                         margin: const EdgeInsets.only(bottom: 16),
                         decoration: BoxDecoration(
-                          color: kWarning.withValues(alpha: 0.1),
+                          color: AppColors.statusPending.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                              color: kWarning.withValues(
-                                  alpha: 0.4)),
+                              color: AppColors.statusPending.withOpacity(0.4)),
                         ),
                         child: Row(
                           children: [
                             const Icon(Icons.cloud_upload_outlined,
-                                color: kWarning, size: 20),
+                                color: AppColors.statusPending, size: 20),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 '$nonSynces lot(s) en attente de synchronisation',
                                 style: const TextStyle(
                                     fontSize: 13,
-                                    color: kWarning,
+                                    color: AppColors.statusPending,
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
                             TextButton(
                               onPressed: _forcerSync,
-                              child: const Text('Sync',
-                                  style: TextStyle(
-                                      color: kWarning,
-                                      fontWeight: FontWeight.bold)),
+                              child: const Text(
+                                'Sync',
+                                style: TextStyle(
+                                    color: AppColors.statusPending,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ],
                         ),
                       ),
 
-                    // ── Stats ──
+                    // ── Stats (CORRIGÉ : utilisation des paramètres nommés) ──
                     Row(children: [
-                      StatCard('${_lots.length}',   'Mes lots',   Icons.inventory_2_outlined, kGreen,  ''),
+                      StatCard(
+                        value: '${_lots.length}',
+                        label: 'Mes lots',
+                        icon: Icons.inventory_2_outlined,
+                        color: AppColors.primaryGreen,
+                        trend: '',
+                      ),
                       const SizedBox(width: 12),
-                      StatCard('$nonSynces',         'Non sync.', Icons.cloud_off,             kWarning,''),
+                      StatCard(
+                        value: '$nonSynces',
+                        label: 'Non sync.',
+                        icon: Icons.cloud_off,
+                        color: AppColors.statusPending,
+                        trend: '',
+                      ),
                     ]),
                     const SizedBox(height: 20),
 
                     // ── Bouton enregistrer ──
-                    ElevatedButton.icon(
-                      onPressed: () async {
+                    GreenButton(
+                      label: 'Enregistrer un nouveau lot',
+                      icon: Icons.add_circle_outline,
+                      onTap: () async {
                         final res = await Navigator.pushNamed(
                             context, '/enregistrer-lot');
                         if (res == true) _load();
                       },
-                      icon: const Icon(Icons.add),
-                      label: const Text(
-                          'Enregistrer un nouveau lot'),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: kGreen),
                     ),
                     const SizedBox(height: 20),
 
                     // ── Liste des lots ──
                     if (_lots.isEmpty)
-                      const Center(
+                      Center(
                         child: Padding(
-                          padding: EdgeInsets.all(40),
-                          child: Text('Aucun lot enregistré',
-                              style:
-                                  TextStyle(color: kGray)),
+                          padding: const EdgeInsets.all(40),
+                          child: Column(
+                            children: [
+                              Icon(Icons.inventory_2_outlined,
+                                  size: 48,
+                                  color: AppColors.textLight.withOpacity(0.5)),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Aucun lot enregistré',
+                                style: TextStyle(color: AppColors.textLight),
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     else
-                      ..._lots.map((lot) => LotCard(
-                          Map<String, dynamic>.from(lot))),
+                      ..._lots.map((lot) => LotCard(Map<String, dynamic>.from(lot))),
                   ],
                 ),
               ),
             ),
-      bottomNavigationBar:
-          buildBottomNav(context, 0, 'AGRICULTEUR'),
+      bottomNavigationBar: buildBottomNav(context, 0, 'AGRICULTEUR'),
     );
   }
 }
